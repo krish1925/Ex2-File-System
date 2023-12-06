@@ -206,8 +206,8 @@ void write_superblock(int fd) {
     superblock.s_first_data_block = SUPERBLOCK_BLOCKNO; // This is typically 0 or 1 depending on the filesystem
     superblock.s_log_block_size = 0; // For a block size of 1024, this should be 0
     superblock.s_log_frag_size = 0; // For a fragment size of 1024, this should be 0
-    superblock.s_blocks_per_group = NUM_BLOCKS; // Or however many blocks you have per group
-    superblock.s_frags_per_group = NUM_BLOCKS; // Same as blocks per group if you're not using fragments
+    superblock.s_blocks_per_group = NUM_BLOCKS*8; // Or however many blocks you have per group
+    superblock.s_frags_per_group = NUM_BLOCKS*8; // Same as blocks per group if you're not using fragments
     superblock.s_inodes_per_group = NUM_INODES; // Or however many inodes you have per group
     superblock.s_mtime = 0; // Mount time - set this to current_time if you want to mark it as mounted now
     superblock.s_wtime = current_time; // Write time
@@ -322,6 +322,15 @@ void write_inode_bitmap(int fd)
 		HELLO_WORLD_INO,
 		HELLO_INO,
 	};
+	for (int i = 0; i < sizeof(initial_inodes) / sizeof(initial_inodes[0]); i++) {
+		int inode_index = initial_inodes[i] - 1; // inode numbers start at 1
+		map_value[inode_index / 8] |= (1 << (inode_index % 8));
+}
+
+// Then write the bitmap to disk
+if (write(fd, map_value, BLOCK_SIZE) != BLOCK_SIZE) {
+    errno_exit("write");
+}
 
 	if (write(fd, map_value, BLOCK_SIZE) != BLOCK_SIZE)
 	{
@@ -369,14 +378,8 @@ void write_inode_table(int fd) {
 
 	// TODO It's all yours
 	struct ext2_inode hello_world_inode = {0};
-	hello_world_inode.i_mode = EXT2_S_IFDIR
-	                              | EXT2_S_IRUSR
-	                              | EXT2_S_IWUSR
-	                              | EXT2_S_IXUSR
-	                              | EXT2_S_IRGRP
-	                              | EXT2_S_IXGRP
-	                              | EXT2_S_IROTH
-	                              | EXT2_S_IXOTH;
+	hello_world_inode.i_mode = EXT2_S_IFREG | EXT2_S_IRUSR | EXT2_S_IWUSR | EXT2_S_IRGRP | EXT2_S_IROTH; 
+
 	hello_world_inode.i_uid = 0;
 	hello_world_inode.i_size = strlen("hello world\n");
 	hello_world_inode.i_atime = current_time;
@@ -431,6 +434,13 @@ void write_root_dir_block(int fd)
     dir_entry_write(parent_entry, fd);
     bytes_remaining -= parent_entry.rec_len;
 	
+
+	struct ext2_dir_entry hello_world_entry = {0};
+    dir_entry_set(hello_world_entry, HELLO_WORLD_INO, "hello-world");
+    dir_entry_write(hello_world_entry, fd);
+
+	bytes_remaining -= hello_world_entry.rec_len;
+
 	struct ext2_dir_entry fill_entry = {0};
     fill_entry.rec_len = bytes_remaining;
     dir_entry_write(fill_entry, fd);
