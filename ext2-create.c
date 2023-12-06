@@ -218,7 +218,7 @@ void write_superblock(int fd) {
     superblock.s_errors = 1; // Continue on errors
     superblock.s_minor_rev_level = 0; // Leave this as 0
     superblock.s_lastcheck = current_time; // Last check time
-    superblock.s_checkinterval = 0; // Maximum time between checks, 0 disables
+    superblock.s_checkinterval = 1; // Maximum time between checks, 0 disables
     superblock.s_creator_os = 0; // Linux
     superblock.s_rev_level = 0; // Revision level, set to 1 for dynamic rev level support
     superblock.s_def_resuid = 0; // Default uid for reserved blocks
