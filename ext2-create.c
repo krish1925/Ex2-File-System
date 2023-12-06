@@ -330,11 +330,6 @@ void write_inode_bitmap(int fd)
 // Then write the bitmap to disk
 if (write(fd, map_value, BLOCK_SIZE) != BLOCK_SIZE) {
     errno_exit("write");
-}
-
-	if (write(fd, map_value, BLOCK_SIZE) != BLOCK_SIZE)
-	{
-		errno_exit("write");
 	}
 }
 
@@ -410,8 +405,8 @@ void write_inode_table(int fd) {
 	root_inode.i_gid = 0;
 	root_inode.i_links_count = 2;
 	root_inode.i_blocks = 2; /* These are oddly 512 blocks */
-	root_inode.i_block[0] = ROOT_DIR_BLOCKNO;
-	write_inode(fd,ROOT_DIR_BLOCKNO, &root_inode);
+	root_inode.i_block[0] = EXT2_ROOT_INO;
+	write_inode(fd,EXT2_ROOT_INO, &root_inode);
 
 
 	struct ext2_inode bad_block_inode = {0};
@@ -499,7 +494,7 @@ void write_hello_world_file_block(int fd)
 	const char *content = "Hello world\n";
 	size_t content_len = strlen(content);
 	if(write(fd, content, content_len) != content_len){
-		errno_exit('write');
+		errno_exit("write");
 	}
 }
 
