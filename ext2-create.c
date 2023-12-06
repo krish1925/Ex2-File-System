@@ -412,6 +412,21 @@ void write_inode_table(int fd) {
 	root_inode.i_blocks = 2; /* These are oddly 512 blocks */
 	root_inode.i_block[0] = ROOT_DIR_BLOCKNO;
 	write_inode(fd,ROOT_DIR_BLOCKNO, &root_inode);
+
+
+	struct ext2_inode bad_block_inode = {0};
+    bad_block_inode.i_mode = EXT2_S_IFREG; // Regular file
+    bad_block_inode.i_uid = 0;
+    bad_block_inode.i_size = 0; // Initially, size is zero as no bad blocks are listed
+    bad_block_inode.i_atime = current_time;
+    bad_block_inode.i_ctime = current_time;
+    bad_block_inode.i_mtime = current_time;
+    bad_block_inode.i_dtime = 0;
+    bad_block_inode.i_gid = 0;
+    bad_block_inode.i_links_count = 1;
+    bad_block_inode.i_blocks = 0; // No data blocks yet
+    memset(bad_block_inode.i_block, 0, sizeof(bad_block_inode.i_block)); // Clear block pointers
+    write_inode(fd, EXT2_BAD_INO, &bad_block_inode);
 	// TODO finish the inode entries for the other files
 }
 
