@@ -279,10 +279,9 @@ void write_block_bitmap(int fd)
 	if (off == -1)
 	{
 		errno_exit("lseek");
-	}
+	}/*
+		u8 map_value[BLOCK_SIZE] = {0};
 
-	// TODO It's all yours
-	u8 map_value[BLOCK_SIZE] = {0};
 	int count = LAST_BLOCK;
 	int i = 0;
 	while(count > 0) {
@@ -301,72 +300,7 @@ void write_block_bitmap(int fd)
 			count = 0;
 		}
 	}
-	// map_value[0] = 0xFF;
-	// map_value[1] = 0xFF; //  Free blocks: 24-1023
-	// map_value[2] = 0x7f; //Right to left, LSB to MSB.. 01111111 (24 23 22 21 20...)
-	map_value[127] = 0x80;  // 10000000
-	for(int i = 128; i < BLOCK_SIZE; i++)  { //SHOULD 128 BE REPLACED W SOMETHING? WHAT DOES THIS MEAN
-		map_value[i] = 0xFF;
-	}
-
-
-	if (write(fd, map_value, BLOCK_SIZE) != BLOCK_SIZE)
-	{
-		errno_exit("write");
-	}
-
-	////
-
-}
-
-void write_inode_bitmap(int fd)
-{
-	off_t off = lseek(fd, BLOCK_OFFSET(INODE_BITMAP_BLOCKNO), SEEK_SET);
-	if (off == -1)
-	{
-		errno_exit("lseek");
-	}
-
-	// TODO It's all yours
-	u8 map_value[BLOCK_SIZE] = {0};
-
-	int count = LAST_INO;
-	int i = 0;
-	while(count > 0) {
-		if(count - 8 >= 0) { 
-			map_value[i] = 0xFF;
-			i++;
-			count -= 8;
-		} else {
-			//count % 8 is how many 1's there are, starting from the right
-			int mask = 0xFF;
-			for(int j = 0; j < 8 - count; j++) {
-				mask = mask >> 1;
-			}
-			
-			map_value[i] = mask;
-			count = 0;
-		}
-	}
-	for(int i = 16; i < BLOCK_SIZE; i++)  { //SHOULD 128 BE REPLACED W SOMETHING? WHAT DOES THIS MEAN
-		map_value[i] = 0xFF;
-	}
-
-	if (write(fd, map_value, BLOCK_SIZE) != BLOCK_SIZE)
-	{
-		errno_exit("write");
-	}
-}
-
-
-/*
-void write_block_bitmap(int fd)
-{
-	off_t off = lseek(fd, BLOCK_OFFSET(BLOCK_BITMAP_BLOCKNO), SEEK_SET);
-	if (off == -1)
-	{
-		errno_exit("lseek");
-	}
+*/
 	// TODO It's all yours
 	u8 map_value[BLOCK_SIZE] = {0};
 	int initial_blocks[]= {
@@ -382,6 +316,11 @@ void write_block_bitmap(int fd)
         int block_no = initial_blocks[i];
         map_value[block_no / 8] |= (1 << (block_no % 8));
     }
+	map_value[127] = 0x80;  
+	for(int i = 128; i < BLOCK_SIZE; i++)  { 
+		map_value[i] = 0xFF;
+	}
+
 
 	if (write(fd, map_value, BLOCK_SIZE) != BLOCK_SIZE)
 	{
@@ -411,17 +350,35 @@ void write_inode_bitmap(int fd)
 		int inode_index = initial_inodes[i] - 1; // inode numbers start at 1
 		map_value[inode_index / 8] |= (1 << (inode_index % 8));
 	}
+	// int count = LAST_INO;
+	// int i = 0;
+	// while(count > 0) {
+	// 	if(count - 8 >= 0) { 
+	// 		map_value[i] = 0xFF;
+	// 		i++;
+	// 		count -= 8;
+	// 	} else {
+	// 		//count % 8 is how many 1's there are, starting from the right
+	// 		int mask = 0xFF;
+	// 		for(int j = 0; j < 8 - count; j++) {
+	// 			mask = mask >> 1;
+	// 		}
+			
+	// 		map_value[i] = mask;
+	// 		count = 0;
+	// 	}
+	// }
 
-	for (int i = LAST_INO + 1; i < NUM_INODES; i++) { //padding
-        map_value[i / 8] |= (1 << (i % 8));
+	for (int i = 16; i < BLOCK_SIZE; i++) { //padding
+        map_value[i] = 0xFF;
     }
 
-// Then write the bitmap to disk
-if (write(fd, map_value, BLOCK_SIZE) != BLOCK_SIZE) {
-    errno_exit("write");
+	// Then write the bitmap to disk
+	if (write(fd, map_value, BLOCK_SIZE) != BLOCK_SIZE) {
+		errno_exit("write");
+		}
 	}
-}
-*/
+
 void write_inode(int fd, u32 index, struct ext2_inode *inode) {
 	off_t off = BLOCK_OFFSET(INODE_TABLE_BLOCKNO)
 	            + (index - 1) * sizeof(struct ext2_inode);
