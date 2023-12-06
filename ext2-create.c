@@ -208,7 +208,7 @@ void write_superblock(int fd) {
     superblock.s_log_frag_size = 0; // For a fragment size of 1024, this should be 0
     superblock.s_blocks_per_group = (1024 << superblock.s_log_block_size) *8; // Or however many blocks you have per group
     superblock.s_frags_per_group = (1024 << superblock.s_log_frag_size) *8; // Same as blocks per group if you're not using fragments
-    superblock.s_inodes_per_group = NUM_INODES; // Or however many inodes you have per group
+    superblock.s_inodes_per_group = (1024 << superblock.s_log_block_size) / (BLOCK_SIZE/NUM_INODES); // Or however many inodes you have per group
     superblock.s_mtime = 0; // Mount time - set this to current_time if you want to mark it as mounted now
     superblock.s_wtime = current_time; // Write time
     superblock.s_mnt_count = 0; // Number of times mounted so far
