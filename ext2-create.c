@@ -422,6 +422,21 @@ void write_inode_table(int fd) {
     bad_block_inode.i_blocks = 0; // No data blocks yet
     memset(bad_block_inode.i_block, 0, sizeof(bad_block_inode.i_block)); // Clear block pointers
     write_inode(fd, EXT2_BAD_INO, &bad_block_inode);
+
+	struct ext2_inode hello_inode = {0};
+	hello_inode.i_mode = EXT2_S_IFLNK | EXT2_S_IRUSR | EXT2_S_IWUSR | EXT2_S_IRGRP | EXT2_S_IROTH;
+	hello_inode.i_uid = 0;
+	hello_inode.i_size = strlen("helloworld"); // Length of the path "helloworld"
+	hello_inode.i_atime = current_time;
+	hello_inode.i_ctime = current_time;
+	hello_inode.i_mtime = current_time;
+	hello_inode.i_dtime = 0;
+	hello_inode.i_gid = 0;
+	hello_inode.i_links_count = 1;
+	hello_inode.i_blocks = 2; // These are oddly 512 blocks
+	memcpy(hello_inode.i_block, "helloworld", strlen("helloworld") + 1);
+
+	
 	// TODO finish the inode entries for the other files
 }
 
@@ -454,6 +469,10 @@ void write_root_dir_block(int fd)
 	struct ext2_dir_entry fill_entry = {0};
     fill_entry.rec_len = bytes_remaining;
     dir_entry_write(fill_entry, fd);
+
+	struct ext2_dir_entry hello_entry = {0};
+	dir_entry_set(hello_entry, HELLO_INO, "hello");
+	dir_entry_write(hello_entry, fd);
 
 }
 
