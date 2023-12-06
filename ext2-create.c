@@ -282,7 +282,6 @@ void write_block_bitmap(int fd)
 	}
 
 	// TODO It's all yours
-	/*
 	u8 map_value[BLOCK_SIZE] = {0};
 	int initial_blocks[]= {
 		SUPERBLOCK_BLOCKNO,
@@ -297,30 +296,6 @@ void write_block_bitmap(int fd)
         int block_no = initial_blocks[i];
         map_value[block_no / 8] |= (1 << (block_no % 8));
     }
-	*/
-	u8 map_value[BLOCK_SIZE] = {0};
-	int count = LAST_BLOCK;
-	int i = 0;
-	while(count > 0) {
-		if(count - 8 >= 0) { 
-			map_value[i] = 0xFF;
-			i++;
-			count -= 8;
-		} else {
-			//count % 8 is how many 1's there are, starting from the right
-			int mask = 0xFF;
-			for(int j = 0; j < 8 - count; j++) {
-				mask = mask >> 1;
-			}
-			
-			map_value[i] = mask;
-			count = 0;
-		}
-	}
-	map_value[127] = 0x80;  // 10000000
-	for(int i = 128; i < BLOCK_SIZE; i++)  { //SHOULD 128 BE REPLACED W SOMETHING? WHAT DOES THIS MEAN
-		map_value[i] = 0xFF;
-	}
 
 
 	if (write(fd, map_value, BLOCK_SIZE) != BLOCK_SIZE)
@@ -336,7 +311,7 @@ void write_inode_bitmap(int fd)
 	{
 		errno_exit("lseek");
 	}
-/*
+
 	// TODO It's all yours
 	u8 map_value[BLOCK_SIZE]= {0};
 	int initial_inodes[]= {
@@ -350,30 +325,6 @@ void write_inode_bitmap(int fd)
 		int inode_index = initial_inodes[i] - 1; // inode numbers start at 1
 		map_value[inode_index / 8] |= (1 << (inode_index % 8));
 }
-*/
-	u8 map_value[BLOCK_SIZE] = {0};
-
-	int count = LAST_INO;
-	int i = 0;
-	while(count > 0) {
-		if(count - 8 >= 0) { 
-			map_value[i] = 0xFF;
-			i++;
-			count -= 8;
-		} else {
-			//count % 8 is how many 1's there are, starting from the right
-			int mask = 0xFF;
-			for(int j = 0; j < 8 - count; j++) {
-				mask = mask >> 1;
-			}
-			
-			map_value[i] = mask;
-			count = 0;
-		}
-	}
-	for(int i = 16; i < BLOCK_SIZE; i++)  { //SHOULD 128 BE REPLACED W SOMETHING? WHAT DOES THIS MEAN
-		map_value[i] = 0xFF;
-	}
 
 // Then write the bitmap to disk
 if (write(fd, map_value, BLOCK_SIZE) != BLOCK_SIZE) {
@@ -421,7 +372,11 @@ void write_inode_table(int fd) {
 
 	// TODO It's all yours
 	struct ext2_inode hello_world_inode = {0};
-	hello_world_inode.i_mode = EXT2_S_IFREG | EXT2_S_IRUSR | EXT2_S_IWUSR | EXT2_S_IRGRP | EXT2_S_IROTH; 
+	hello_world_inode.i_mode = EXT2_S_IFREG
+	 							| EXT2_S_IRUSR
+	  							| EXT2_S_IWUSR
+	   							| EXT2_S_IRGRP
+	    						| EXT2_S_IROTH; 
 
 	hello_world_inode.i_uid = 1000;
 	hello_world_inode.i_size = 1024;//strlen("hello world\n");
@@ -453,14 +408,18 @@ void write_inode_table(int fd) {
 	root_inode.i_gid = 0;
 	root_inode.i_links_count = 3;
 	root_inode.i_blocks = 2; 
-	root_inode.i_block[0] = EXT2_ROOT_INO;
+	root_inode.i_block[0] = ROOT_DIR_BLOCKNO;
 	write_inode(fd,EXT2_ROOT_INO, &root_inode);
 
 
 	struct ext2_inode hello_inode = {0};
-	hello_inode.i_mode = EXT2_S_IFLNK | EXT2_S_IRUSR | EXT2_S_IWUSR | EXT2_S_IRGRP | EXT2_S_IROTH;
+	hello_inode.i_mode = EXT2_S_IFLNK
+						| EXT2_S_IRUSR 
+						| EXT2_S_IWUSR 
+						| EXT2_S_IRGRP 
+						| EXT2_S_IROTH;
 	hello_inode.i_uid = 1000;
-	hello_inode.i_size = strlen("hello world\n"); 
+	hello_inode.i_size = 11; 
 	hello_inode.i_atime = current_time;
 	hello_inode.i_ctime = current_time;
 	hello_inode.i_mtime = current_time;
