@@ -296,6 +296,9 @@ void write_block_bitmap(int fd)
         int block_no = initial_blocks[i];
         map_value[block_no / 8] |= (1 << (block_no % 8));
     }
+	for (int i = LAST_BLOCK + 1; i < NUM_BLOCKS; i++) {  //padding
+        map_value[i / 8] |= (1 << (i % 8));
+    }
 
 
 	if (write(fd, map_value, BLOCK_SIZE) != BLOCK_SIZE)
@@ -324,7 +327,11 @@ void write_inode_bitmap(int fd)
 	for (int i = 0; i < sizeof(initial_inodes) / sizeof(initial_inodes[0]); i++) {
 		int inode_index = initial_inodes[i] - 1; // inode numbers start at 1
 		map_value[inode_index / 8] |= (1 << (inode_index % 8));
-}
+	}
+
+	for (int i = LAST_INO + 1; i < NUM_INODES; i++) { //padding
+        map_value[i / 8] |= (1 << (i % 8));
+    }
 
 // Then write the bitmap to disk
 if (write(fd, map_value, BLOCK_SIZE) != BLOCK_SIZE) {
@@ -512,16 +519,16 @@ void write_lost_and_found_dir_block(int fd) {
 void write_hello_world_file_block(int fd)
 {
 	// TODO It's all yours
-	off_t offset = BLOCK_OFFSET(HELLO_WORLD_FILE_BLOCKNO);
-	offset = lseek(fd, offset, SEEK_SET);
-	if(offset == -1){
-		errno_exit("lseek");
-	}
-	const char *content = "Hello world\n";
-	size_t content_len = strlen(content);
-	if(write(fd, content, content_len) != content_len){
-		errno_exit("write");
-	}
+	// off_t offset = BLOCK_OFFSET(HELLO_WORLD_FILE_BLOCKNO);
+	// offset = lseek(fd, offset, SEEK_SET);
+	// if(offset == -1){
+	// 	errno_exit("lseek");
+	// }
+	// const char *content = "Hello world\n";
+	// size_t content_len = strlen(content);
+	// if(write(fd, content, content_len) != content_len){
+	// 	errno_exit("write");
+	// }
 }
 
 int main(int argc, char *argv[]) {
