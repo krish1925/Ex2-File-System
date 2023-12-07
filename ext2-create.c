@@ -280,16 +280,23 @@ void write_block_bitmap(int fd)
 	{
 		errno_exit("lseek");
 	}
-	// TODO It's all yours
 	u8 map_value[BLOCK_SIZE] = {0};
 	int count = LAST_BLOCK;
-	for(int i = 0; count > 0; i++) {
-		if (count >= 8) {
+	int i = 0;
+	while(count > 0) {
+		if(count - 8 >= 0) { 
 			map_value[i] = 0xFF;
+			i++;
 			count -= 8;
 		} else {
-			map_value[i] = 0xFF << (8 - count);
-			break;
+			//count % 8 is how many 1's there are, starting from the right
+			int mask = 0xFF;
+			for(int j = 0; j < 8 - count; j++) {
+				mask = mask >> 1;
+			}
+			
+			map_value[i] = mask;
+			count = 0;
 		}
 	}
 	map_value[127] = 0x80;   //padding
