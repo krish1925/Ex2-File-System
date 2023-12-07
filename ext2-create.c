@@ -1104,6 +1104,18 @@ void write_root_dir_block(int fd)
 
 	bytes_remaining -= lost_and_found_entry.rec_len;
 
+	struct ext2_dir_entry hello_world_entry = {0};
+	dir_entry_set(hello_world_entry, HELLO_WORLD_INO, "hello-world");
+	dir_entry_write(hello_world_entry, fd);
+
+	bytes_remaining -= hello_world_entry.rec_len;
+
+	struct ext2_dir_entry hello_entry = {0};
+	dir_entry_set(hello_entry, HELLO_INO, "hello");
+	dir_entry_write(hello_entry, fd);
+
+	bytes_remaining -=hello_entry.rec_len;
+
 	
 	struct ext2_dir_entry fill_entry = {0};
 	fill_entry.rec_len = bytes_remaining;
@@ -1132,17 +1144,6 @@ void write_lost_and_found_dir_block(int fd) {
 	bytes_remaining -= parent_entry.rec_len;
 
 
-	struct ext2_dir_entry hello_world_entry = {0};
-	dir_entry_set(hello_world_entry, HELLO_WORLD_INO, "hello-world");
-	dir_entry_write(hello_world_entry, fd);
-
-	bytes_remaining -= hello_world_entry.rec_len;
-
-	struct ext2_dir_entry hello_entry = {0};
-	dir_entry_set(hello_entry, HELLO_INO, "hello");
-	dir_entry_write(hello_entry, fd);
-
-	bytes_remaining -=hello_entry.rec_len;
 
 	struct ext2_dir_entry fill_entry = {0};
 	fill_entry.rec_len = bytes_remaining;
