@@ -1022,17 +1022,31 @@ void write_inode_table(int fd) {
 	                              | EXT2_S_IRGRP
 	                              | EXT2_S_IROTH;
 	hello_world_inode.i_uid = 1000;
-	hello_world_inode.i_size = 1024; ///
+	hello_world_inode.i_size = 1024;
 	hello_world_inode.i_atime = current_time;
 	hello_world_inode.i_ctime = current_time;
 	hello_world_inode.i_mtime = current_time;
 	hello_world_inode.i_dtime = 0;
 	hello_world_inode.i_gid = 1000;
 	hello_world_inode.i_links_count = 1;
-	hello_world_inode.i_blocks = 2; /* These are oddly 512 blocks */
+	hello_world_inode.i_blocks = 2; // These are oddly 512 blocks
 	hello_world_inode.i_block[0] = HELLO_WORLD_FILE_BLOCKNO;
 	write_inode(fd, HELLO_WORLD_INO, &hello_world_inode);
 
+
+	struct ext2_inode hello_inode = {0};
+	hello_inode.i_mode = EXT2_S_IFLNK | EXT2_S_IRUSR | EXT2_S_IWUSR | EXT2_S_IRGRP | EXT2_S_IROTH;
+	hello_inode.i_uid = 1000;
+	hello_inode.i_size = 11; // The size of the symlink path
+	hello_inode.i_atime = current_time;
+	hello_inode.i_ctime = current_time;
+	hello_inode.i_mtime = current_time;
+	hello_inode.i_dtime = 0;
+	hello_inode.i_gid = 1000;
+	hello_inode.i_links_count = 1;
+	hello_inode.i_blocks = 0; // No data blocks for a symlink
+	write_inode(fd, HELLO_INO, &hello_inode);
+/*
 	struct ext2_inode hello_inode = {0};
 	hello_inode.i_mode = EXT2_S_IFLNK
 	                              | EXT2_S_IRUSR
@@ -1047,14 +1061,17 @@ void write_inode_table(int fd) {
 	hello_inode.i_dtime = 0;
 	hello_inode.i_gid = 1000;
 	hello_inode.i_links_count = 1;
-	hello_inode.i_blocks = 0; /* These are oddly 512 blocks */
+	hello_inode.i_blocks = 0;  These are oddly 512 blocks 
 	//u32 str = strtol("hello-world");
 	//hello-world:
 	//68 65 6C 6C     6F 20 77 6F      72 6C 64
+	
 	hello_inode.i_block[0] = 0x6C6C6568;
 	hello_inode.i_block[1] = 0x6F77206F;
 	hello_inode.i_block[2] = 0x00646C72;
-
+	*/
+	char symlink_path[] = "hello-world";
+	memcpy(hello_inode.i_block, symlink_path, sizeof(symlink_path));
 	write_inode(fd, HELLO_INO, &hello_inode);
 
 }
@@ -1087,17 +1104,6 @@ void write_root_dir_block(int fd)
 
 	bytes_remaining -= lost_and_found_entry.rec_len;
 
-	struct ext2_dir_entry hello_world_entry = {0};
-	dir_entry_set(hello_world_entry, HELLO_WORLD_INO, "hello-world");
-	dir_entry_write(hello_world_entry, fd);
-
-	bytes_remaining -= hello_world_entry.rec_len;
-
-	struct ext2_dir_entry hello_entry = {0};
-	dir_entry_set(hello_entry, HELLO_INO, "hello");
-	dir_entry_write(hello_entry, fd);
-
-	bytes_remaining -=hello_entry.rec_len;
 	
 	struct ext2_dir_entry fill_entry = {0};
 	fill_entry.rec_len = bytes_remaining;
@@ -1126,17 +1132,17 @@ void write_lost_and_found_dir_block(int fd) {
 	bytes_remaining -= parent_entry.rec_len;
 
 
-	// struct ext2_dir_entry hello_world_entry = {0};
-	// dir_entry_set(hello_world_entry, HELLO_WORLD_INO, "hello-world");
-	// dir_entry_write(hello_world_entry, fd);
+	struct ext2_dir_entry hello_world_entry = {0};
+	dir_entry_set(hello_world_entry, HELLO_WORLD_INO, "hello-world");
+	dir_entry_write(hello_world_entry, fd);
 
-	// bytes_remaining -= hello_world_entry.rec_len;
+	bytes_remaining -= hello_world_entry.rec_len;
 
-	// struct ext2_dir_entry hello_entry = {0};
-	// dir_entry_set(hello_entry, HELLO_INO, "hello");
-	// dir_entry_write(hello_entry, fd);
+	struct ext2_dir_entry hello_entry = {0};
+	dir_entry_set(hello_entry, HELLO_INO, "hello");
+	dir_entry_write(hello_entry, fd);
 
-	// bytes_remaining -=hello_entry.rec_len;
+	bytes_remaining -=hello_entry.rec_len;
 
 	struct ext2_dir_entry fill_entry = {0};
 	fill_entry.rec_len = bytes_remaining;
