@@ -204,7 +204,7 @@ void write_superblock(int fd) {
     superblock.s_r_blocks_count = 0; 
     superblock.s_free_blocks_count = NUM_FREE_BLOCKS;
     superblock.s_free_inodes_count = NUM_FREE_INODES;
-    superblock.s_first_data_block = SUPERBLOCK_BLOCKNO; 
+    superblock.s_first_data_block = 1; 
     superblock.s_log_block_size = 0; 
     superblock.s_log_frag_size = 0; 
     superblock.s_blocks_per_group = (1024 << superblock.s_log_block_size) *8; // Or however many blocks you have per group
@@ -317,26 +317,37 @@ void write_inode_bitmap(int fd)
 	{
 		errno_exit("lseek");
 	}
-	u8 map_value[BLOCK_SIZE]= {0};
+
+	// TODO It's all yours
+	u8 map_value[BLOCK_SIZE] = {0};
+
 	int count = LAST_INO;
-	for (int i = 0; count > 0; i++) {
-		if (count >= 8) {
+	int i = 0;
+	while(count > 0) {
+		if(count - 8 >= 0) { 
 			map_value[i] = 0xFF;
+			i++;
 			count -= 8;
 		} else {
-			map_value[i] = (0xFF >> (8 - count)) & 0xFF;
-			break;
+			//count % 8 is how many 1's there are, starting from the right
+			int mask = 0xFF;
+			for(int j = 0; j < 8 - count; j++) {
+				mask = mask >> 1;
+			}
+			
+			map_value[i] = mask;
+			count = 0;
 		}
 	}
-	for(int i = 0x10; i < BLOCK_SIZE; i++)  {  //padding
+	for(int i = 16; i < BLOCK_SIZE; i++)  { //SHOULD 128 BE REPLACED W SOMETHING? WHAT DOES THIS MEAN
 		map_value[i] = 0xFF;
 	}
 
-	if (write(fd, map_value, BLOCK_SIZE) != BLOCK_SIZE) {
+	if (write(fd, map_value, BLOCK_SIZE) != BLOCK_SIZE)
+	{
 		errno_exit("write");
-		}
 	}
-
+}
 void write_inode(int fd, u32 index, struct ext2_inode *inode) {
 	off_t off = BLOCK_OFFSET(INODE_TABLE_BLOCKNO)
 	            + (index - 1) * sizeof(struct ext2_inode);
