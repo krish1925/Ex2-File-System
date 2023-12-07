@@ -1152,18 +1152,16 @@ void write_lost_and_found_dir_block(int fd) {
 
 void write_hello_world_file_block(int fd)
 {
-	off_t off = BLOCK_OFFSET(HELLO_WORLD_FILE_BLOCKNO);
-	off = lseek(fd, off, SEEK_SET);
+	off_t off = lseek(fd, BLOCK_OFFSET(HELLO_WORLD_FILE_BLOCKNO), SEEK_SET);
 	if(off == -1) {
 		errno_exit("lseek");
 	}
 
-	ssize_t bytes_remaining = BLOCK_SIZE;
-
-
-	struct ext2_dir_entry fill_entry = {0};
-	fill_entry.rec_len = bytes_remaining;
-	dir_entry_write(fill_entry, fd);
+	const char *content = "Hello world\n";
+	size_t content_len = strlen(content);
+	if(write(fd, content, content_len) != content_len){
+		errno_exit("write");
+	}
 }
 
 int main(int argc, char *argv[]) {
