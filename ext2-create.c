@@ -186,7 +186,7 @@ u32 get_current_time() {
 	}
 	return t;
 }
-
+/*
 void write_superblock(int fd) {
 	off_t off = lseek(fd, BLOCK_OFFSET(1), SEEK_SET);
 	if (off == -1) {
@@ -225,6 +225,73 @@ void write_superblock(int fd) {
     superblock.s_def_resuid = 0; 
     superblock.s_def_resgid = 0;
 	// You can leave everything below this line the same, delete this comment when you're done the lab 
+	superblock.s_uuid[0] = 0x5A;
+	superblock.s_uuid[1] = 0x1E;
+	superblock.s_uuid[2] = 0xAB;
+	superblock.s_uuid[3] = 0x1E;
+	superblock.s_uuid[4] = 0x13;
+	superblock.s_uuid[5] = 0x37;
+	superblock.s_uuid[6] = 0x13;
+	superblock.s_uuid[7] = 0x37;
+	superblock.s_uuid[8] = 0x13;
+	superblock.s_uuid[9] = 0x37;
+	superblock.s_uuid[10] = 0xC0;
+	superblock.s_uuid[11] = 0xFF;
+	superblock.s_uuid[12] = 0xEE;
+	superblock.s_uuid[13] = 0xC0;
+	superblock.s_uuid[14] = 0xFF;
+	superblock.s_uuid[15] = 0xEE;
+
+	memcpy(&superblock.s_volume_name, "cs111-base", 10);
+
+	ssize_t size = sizeof(superblock);
+	if (write(fd, &superblock, size) != size) {
+		errno_exit("write");
+	}
+}
+*/
+
+void write_superblock(int fd) {
+	off_t off = lseek(fd, BLOCK_OFFSET(1), SEEK_SET);
+	if (off == -1) {
+		errno_exit("lseek");
+	}
+
+	u32 current_time = get_current_time();
+
+	struct ext2_superblock superblock = {0};
+
+	// TODO It's all yours
+	// TODO finish the superblock number setting
+	superblock.s_inodes_count = NUM_INODES; //This value must be lower or equal to (s_inodes_per_group * number of block groups)
+	superblock.s_blocks_count = NUM_BLOCKS;
+	superblock.s_r_blocks_count = 0; 
+	superblock.s_free_blocks_count = NUM_FREE_BLOCKS;
+	superblock.s_free_inodes_count = NUM_FREE_INODES;
+	superblock.s_first_data_block = 1; //Note that this value is always 0 for file systems with a block size larger than 1KB, and always 1 for file systems with a block size of 1KB. The superblock is always starting at the 1024th byte of the disk, which normally happens to be the first byte of the 3rd sector.  /* First Data Block */
+	//SUPERBLOCK BLOCKNO?
+	superblock.s_log_block_size = 0;					/* 1024 */
+	superblock.s_log_frag_size = 0;						/* 1024 */
+	superblock.s_blocks_per_group = (1024 << superblock.s_log_block_size) * 8; //1024 bytes * 8 bits
+	superblock.s_frags_per_group =  (1024 << superblock.s_log_frag_size) * 8; //1024 bytes * 8 bits
+	superblock.s_inodes_per_group = (1024 << superblock.s_log_block_size) / (BLOCK_SIZE/NUM_INODES); //1024 / 8 inodes/block = 128
+	superblock.s_mtime = 0;				/* Mount time */
+	superblock.s_wtime = current_time;	/* Write time */
+	superblock.s_mnt_count         = 0; /* Number of times mounted so far */
+	superblock.s_max_mnt_count     = -1; /* Make this unlimited */
+	superblock.s_magic = EXT2_SUPER_MAGIC; /* ext2 Signature */
+	superblock.s_state             = 1; /* File system is clean */ //1: unmounted cleanly, 2: errors
+	superblock.s_errors            = 1; /* Ignore the error (continue on) */
+	superblock.s_minor_rev_level   = 0; /* Leave this as 0 */
+	superblock.s_lastcheck = current_time; /* Last check time */
+	superblock.s_checkinterval     = 1; /* Force checks by making them every 1 second */
+	superblock.s_creator_os        = 0; /* Linux */ //EXT2_OS_LINUX
+	superblock.s_rev_level         = 0; /* Leave this as 0 */
+	superblock.s_def_resuid        = 0; /* root */
+	superblock.s_def_resgid        = 0; /* root */
+
+	/* You can leave everything below this line the same, delete this
+	   comment when you're done the lab */
 	superblock.s_uuid[0] = 0x5A;
 	superblock.s_uuid[1] = 0x1E;
 	superblock.s_uuid[2] = 0xAB;
@@ -453,9 +520,9 @@ void write_inode_table(int fd) {
 void write_root_dir_block(int fd)
 {
 	// TODO It's all yours
-	off_t offset = BLOCK_OFFSET(ROOT_DIR_BLOCKNO);
-	offset = lseek(fd, offset, SEEK_SET);
-	if(offset == -1){
+	off_t off = BLOCK_OFFSET(ROOT_DIR_BLOCKNO);
+	off = lseek(fd, off, SEEK_SET);
+	if(off == -1){
 		errno_exit("lseek");
 	}
 	ssize_t bytes_remaining = BLOCK_SIZE;
