@@ -324,7 +324,7 @@ void write_inode_bitmap(int fd)
 			break;
 		}
 	}
-	for(int i = 0x10; i < BLOCK_SIZE; i++)  { 
+	for(int i = 0x10; i < BLOCK_SIZE; i++)  {  //padding
 		map_value[i] = 0xFF;
 	}
 
