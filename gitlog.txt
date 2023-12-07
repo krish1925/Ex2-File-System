@@ -1,0 +1,251 @@
+commit c0741185bd2928e124bb4fbbe1b361daf6eaa36f
+Author: Krish Patel <krishhnpatel@gmail.com>
+Date:   Thu Dec 7 09:25:44 2023 -0800
+
+    fadsbflaksjdflkajsdnflkajndslkfnjalkdjnfaldjnfalkjnsd
+
+commit 03e61d91898cea5089d067d824f5a5be2df4a7d6
+Author: Krish Patel <krishhnpatel@gmail.com>
+Date:   Thu Dec 7 09:23:56 2023 -0800
+
+    dfnlakdsflkasdnlfa
+
+commit 1377fd5ecd85015d4b7291309940c2c6549eb9dd
+Author: Krish Patel <krishhnpatel@gmail.com>
+Date:   Thu Dec 7 09:20:58 2023 -0800
+
+    dfnlakdsflkasdnlfa
+
+commit 5c577d6636b5237342b060a8b251f182945dfa6a
+Author: Krish Patel <krishhnpatel@gmail.com>
+Date:   Thu Dec 7 09:19:15 2023 -0800
+
+    fdkjflkdsjflakjdsf
+
+commit bd26751b32c5d4e9836a072757075999af7bacc0
+Author: Krish Patel <krishhnpatel@gmail.com>
+Date:   Thu Dec 7 09:10:59 2023 -0800
+
+    testing 123
+
+commit fffe66e1f9f5f96b72297dcb44f28451332c4700
+Author: Krish Patel <krishhnpatel@gmail.com>
+Date:   Thu Dec 7 00:35:11 2023 -0800
+
+    finale
+
+commit 2492db77801bb2ad4cf36b82c46f492a55fd6ee2
+Author: Krish Patel <krishhnpatel@gmail.com>
+Date:   Thu Dec 7 00:09:22 2023 -0800
+
+    This is the final version
+
+commit 2cd3691eeeab502c892c1b63b3cb2ac7eafba1ad
+Author: Krish Patel <krishhnpatel@gmail.com>
+Date:   Thu Dec 7 00:09:20 2023 -0800
+
+    This is the final version
+
+commit 3e6b345e5df4bc0288f7d8414f8d05cb240558b1
+Author: Krish Patel <krishhnpatel@gmail.com>
+Date:   Thu Dec 7 00:05:36 2023 -0800
+
+    fadsfbdsfkdsjf
+
+commit bfce16a652c273be59aa6d6267b901b6032e9f8c
+Author: Krish Patel <krishhnpatel@gmail.com>
+Date:   Thu Dec 7 00:04:15 2023 -0800
+
+    finallzz
+
+commit 2705198a4af7f793cfa20e587167993b0577c76f
+Author: Krish Patel <krishhnpatel@gmail.com>
+Date:   Wed Dec 6 23:58:57 2023 -0800
+
+    dnfkajds
+
+commit a9ec7623d614c649fb8d1dcdbe7de613a5bd8612
+Author: Krish Patel <krishhnpatel@gmail.com>
+Date:   Wed Dec 6 23:50:47 2023 -0800
+
+    Final
+
+commit c466e3ae6d920b22dbcdb5b375858425dc62c86e
+Author: Krish Patel <krishhnpatel@gmail.com>
+Date:   Wed Dec 6 23:37:46 2023 -0800
+
+    finally
+
+commit 1b5b3688678caca0ce353e708a44b72ea2494876
+Author: Krish Patel <krishhnpatel@gmail.com>
+Date:   Wed Dec 6 23:34:24 2023 -0800
+
+    final
+
+commit c7a1ee144e4e1efa2c037decf54e64c8cb809f56
+Author: Krish Patel <krishhnpatel@gmail.com>
+Date:   Wed Dec 6 17:40:15 2023 -0800
+
+     fasdflhsdlkfhasdljfhaslkdjhfalksjdh
+
+commit d4aef74c3c154286967ffb04ccab42f883307b7a
+Author: Krish Patel <krishhnpatel@gmail.com>
+Date:   Wed Dec 6 17:32:39 2023 -0800
+
+    fdjfaljdkfna
+
+commit 63bfe69c12626aa372aaf37d6804fda42cbc5603
+Author: Krish Patel <krishhnpatel@gmail.com>
+Date:   Wed Dec 6 17:17:21 2023 -0800
+
+    fdjfsdjfna
+
+commit 602437e74581dc4e25ff8afe6b616a34265719c8
+Author: Krish Patel <krishhnpatel@gmail.com>
+Date:   Wed Dec 6 17:13:18 2023 -0800
+
+    newchanges1024
+
+commit ac458ef305c616f1a81530097f28d76098bfd5b5
+Author: Krish Patel <krishhnpatel@gmail.com>
+Date:   Wed Dec 6 16:53:53 2023 -0800
+
+    new changes
+
+commit 4c3ce0ff45316615c33b741797a2064ddd4f51c1
+Author: Krish Patel <krishhnpatel@gmail.com>
+Date:   Wed Dec 6 16:52:08 2023 -0800
+
+    some changes made
+
+commit 3c2c9b0a67428de4440a81dfd0de185ab58f0856
+Author: Krish Patel <krishhnpatel@gmail.com>
+Date:   Wed Dec 6 16:47:56 2023 -0800
+
+    test
+
+commit 784f992067695967dfb99b2cf484e2e14bbb47b6
+Author: Krish Patel <krishhnpatel@gmail.com>
+Date:   Wed Dec 6 02:11:05 2023 -0800
+
+    76
+
+commit e8bf1981e340fa05aae87da070021f2ab0980e6c
+Author: Krish Patel <krishhnpatel@gmail.com>
+Date:   Wed Dec 6 02:02:47 2023 -0800
+
+    75
+
+commit 205557f910b7a5eb4e04fbe057cab18a22d8e152
+Author: Krish Patel <krishhnpatel@gmail.com>
+Date:   Wed Dec 6 01:57:05 2023 -0800
+
+    74
+
+commit 266b379bdcd466af616b4ee0c2e726114e708dea
+Author: Krish Patel <krishhnpatel@gmail.com>
+Date:   Wed Dec 6 01:45:41 2023 -0800
+
+    73
+
+commit f152d831e488593d2cc8b0de36a0f1c0468bea8b
+Author: Krish Patel <krishhnpatel@gmail.com>
+Date:   Wed Dec 6 01:43:19 2023 -0800
+
+    72
+
+commit 794c678e8654831f8f5efb8b577a20570c95ad69
+Author: Krish Patel <krishhnpatel@gmail.com>
+Date:   Wed Dec 6 01:40:40 2023 -0800
+
+    Almost final
+
+commit 6718dcdaf04ba91754e0c48370e7776648d289a7
+Author: Krish Patel <krishhnpatel@gmail.com>
+Date:   Wed Dec 6 01:34:34 2023 -0800
+
+    second lasst
+
+commit e60a7f50de1e0d29835263352bab9af5b91b0cb9
+Author: Krish Patel <krishhnpatel@gmail.com>
+Date:   Wed Dec 6 01:28:40 2023 -0800
+
+    8
+
+commit 3068ebc0254f1b08ac20aeb0a1c24b163f784ec1
+Author: Krish Patel <krishhnpatel@gmail.com>
+Date:   Wed Dec 6 01:22:06 2023 -0800
+
+    7
+
+commit 006ee2509ed8096ac80bd73541ed42bea4112e0d
+Author: Krish Patel <krishhnpatel@gmail.com>
+Date:   Wed Dec 6 01:14:33 2023 -0800
+
+    Errors fixed?
+
+commit 608855c78ae85b24911da9b4857a401b590d483c
+Author: Krish Patel <krishhnpatel@gmail.com>
+Date:   Wed Dec 6 00:56:39 2023 -0800
+
+    new
+
+commit 99aae9af466b7b098721df5ca09bb2aa73866b97
+Author: Krish Patel <krishhnpatel@gmail.com>
+Date:   Wed Dec 6 00:42:50 2023 -0800
+
+    2
+
+commit ae63e8f69c759a14cf23aa4463499da2a4eddebb
+Author: Krish Patel <krishhnpatel@gmail.com>
+Date:   Wed Dec 6 00:26:46 2023 -0800
+
+    1
+
+commit 1facc194dc119bfc57f84bb2efd99ee63dd0a8bd
+Author: Krish Patel <krishhnpatel@gmail.com>
+Date:   Tue Dec 5 22:58:19 2023 -0800
+
+    Minor changes made
+
+commit 50f0da0307f14d5b38a6985348bdd864eed55810
+Author: Krish Patel <krishhnpatel@gmail.com>
+Date:   Tue Dec 5 22:49:31 2023 -0800
+
+    Potentially fixed bad block inode
+
+commit 5cec3c58d9308e58e1306f8c87274a66770206f4
+Author: Krish Patel <krishhnpatel@gmail.com>
+Date:   Tue Dec 5 22:17:14 2023 -0800
+
+    Final maybe?
+
+commit d0f4414960aa57546b3fee6271fb239215c3280f
+Author: Krish Patel <krishhnpatel@gmail.com>
+Date:   Tue Dec 5 21:38:28 2023 -0800
+
+    Fixed the hello inode table entry and bitmap mapping
+
+commit 3c9dbe3d6a3035f8d92c9e7e6a57b7167adbb5b5
+Author: Krish Patel <krishhnpatel@gmail.com>
+Date:   Tue Dec 5 21:08:31 2023 -0800
+
+    Added the correct files again
+
+commit 7ce3458d53a91c952da3fc8fee2fd00d84526c75
+Author: Krish Patel <krishhnpatel@gmail.com>
+Date:   Tue Dec 5 20:55:36 2023 -0800
+
+    Changes made to superblock
+
+commit 4f19500232dcd3e4f0de3c79c651308987f45c86
+Author: Krish Patel <krishhnpatel@gmail.com>
+Date:   Tue Dec 5 20:23:41 2023 -0800
+
+    Initial second commit?
+
+commit 2c9bb1ebac35d815c0defd3a845a0d45565b5888
+Author: Krish Patel <krishhnpatel@gmail.com>
+Date:   Tue Dec 5 20:18:12 2023 -0800
+
+    first commit
