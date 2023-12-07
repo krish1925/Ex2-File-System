@@ -280,31 +280,77 @@ void write_block_bitmap(int fd)
 	{
 		errno_exit("lseek");
 	}
+
+	// TODO It's all yours
 	u8 map_value[BLOCK_SIZE] = {0};
 	int count = LAST_BLOCK;
 	int i = 0;
-	while(count>0) {
-		if(count-8 >= 0) { 
+	while(count > 0) {
+		if(count - 8 >= 0) { 
 			map_value[i] = 0xFF;
-			i++; count -= 8;
-		}else {
+			i++;
+			count -= 8;
+		} else {
+			//count % 8 is how many 1's there are, starting from the right
 			int mask = 0xFF;
-			for(int j = 0; j<(8-count); j++) {
-				mask = mask >> 1;}
-			map_value[i] = 0xFF;
+			for(int j = 0; j < 8 - count; j++) {
+				mask = mask >> 1;
+			}
+			
+			map_value[i] = mask;
 			count = 0;
 		}
 	}
-	map_value[127] = 0x80;   //padding
-	for(int i = 128; i < BLOCK_SIZE; i++)  { 
+	// map_value[0] = 0xFF;
+	// map_value[1] = 0xFF; //  Free blocks: 24-1023
+	// map_value[2] = 0x7f; //Right to left, LSB to MSB.. 01111111 (24 23 22 21 20...)
+	map_value[127] = 0x80;  // 10000000
+	for(int i = 128; i < BLOCK_SIZE; i++)  { //SHOULD 128 BE REPLACED W SOMETHING? WHAT DOES THIS MEAN
 		map_value[i] = 0xFF;
 	}
+
 
 	if (write(fd, map_value, BLOCK_SIZE) != BLOCK_SIZE)
 	{
 		errno_exit("write");
 	}
+
+	////
+
 }
+
+// void write_block_bitmap(int fd)
+// {
+// 	off_t off = lseek(fd, BLOCK_OFFSET(BLOCK_BITMAP_BLOCKNO), SEEK_SET);
+// 	if (off == -1)
+// 	{
+// 		errno_exit("lseek");
+// 	}
+// 	u8 map_value[BLOCK_SIZE] = {0};
+// 	int count = LAST_BLOCK;
+// 	int i = 0;
+// 	while(count>0) {
+// 		if(count-8 >= 0) { 
+// 			map_value[i] = 0xFF;
+// 			i++; count -= 8;
+// 		}else {
+// 			int mask = 0xFF;
+// 			for(int j = 0; j<(8-count); j++) {
+// 				mask = mask >> 1;}
+// 			map_value[i] = 0xFF;
+// 			count = 0;
+// 		}
+// 	}
+// 	map_value[127] = 0x80;   //padding
+// 	for(int i = 128; i < BLOCK_SIZE; i++)  { 
+// 		map_value[i] = 0xFF;
+// 	}
+
+// 	if (write(fd, map_value, BLOCK_SIZE) != BLOCK_SIZE)
+// 	{
+// 		errno_exit("write");
+// 	}
+// }
 
 void write_inode_bitmap(int fd)
 {
