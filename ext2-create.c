@@ -283,19 +283,15 @@ void write_block_bitmap(int fd)
 	u8 map_value[BLOCK_SIZE] = {0};
 	int count = LAST_BLOCK;
 	int i = 0;
-	while(count > 0) {
-		if(count - 8 >= 0) { 
+	while(count>0) {
+		if(count-8 >= 0) { 
 			map_value[i] = 0xFF;
-			i++;
-			count -= 8;
-		} else {
-			//count % 8 is how many 1's there are, starting from the right
+			i++; count -= 8;
+		}else {
 			int mask = 0xFF;
-			for(int j = 0; j < 8 - count; j++) {
-				mask = mask >> 1;
-			}
-			
-			map_value[i] = mask;
+			for(int j = 0; j<(8-count); j++) {
+				mask = mask >> 1;}
+			map_value[i] = 0xFF;
 			count = 0;
 		}
 	}
@@ -303,7 +299,6 @@ void write_block_bitmap(int fd)
 	for(int i = 128; i < BLOCK_SIZE; i++)  { 
 		map_value[i] = 0xFF;
 	}
-
 
 	if (write(fd, map_value, BLOCK_SIZE) != BLOCK_SIZE)
 	{
@@ -406,7 +401,7 @@ void write_inode_table(int fd) {
 	    						| EXT2_S_IROTH; 
 
 	hello_world_inode.i_uid = 1000;
-	hello_world_inode.i_size = 1024;
+	hello_world_inode.i_size = 12;
 	hello_world_inode.i_atime = current_time;
 	hello_world_inode.i_ctime = current_time;
 	hello_world_inode.i_mtime = current_time;
